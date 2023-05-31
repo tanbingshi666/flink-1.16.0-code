@@ -11,6 +11,7 @@
     <modules>
         <module>hello-world</module>
         <module>data-stream</module>
+        <module>tdengine-connector</module>
     </modules>
 
     <properties>
