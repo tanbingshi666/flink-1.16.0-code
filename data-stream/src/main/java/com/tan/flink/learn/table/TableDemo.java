@@ -21,7 +21,7 @@ public class TableDemo {
         env.setParallelism(1);
 
         // 1 读取数据源并标准化
-        DataStream<Event> eventStream = env.socketTextStream("hadoop", 10000)
+        DataStream<Event> eventStream = env.socketTextStream("hadoop102", 10000)
                 .map(line -> {
                     String[] fields = line.split(",");
                     return new Event(
