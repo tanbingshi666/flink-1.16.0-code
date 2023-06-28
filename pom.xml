@@ -12,6 +12,7 @@
         <module>hello-world</module>
         <module>data-stream</module>
         <module>tdengine-connector</module>
+        <module>flink-hive-code</module>
     </modules>
 
     <properties>
