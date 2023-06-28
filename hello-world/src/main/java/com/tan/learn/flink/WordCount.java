@@ -16,9 +16,10 @@ public class WordCount {
 
         // get the execution environment
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        env.setParallelism(1);
 
         // get input data by connecting to the socket
-        DataStream<String> text = env.socketTextStream("hadoop", 10000, "\n");
+        DataStream<String> text = env.socketTextStream("hj103", 10000, "\n");
 
         // parse the data, group it, window it, and aggregate the counts
         DataStream<WordWithCount> socketCounts =
