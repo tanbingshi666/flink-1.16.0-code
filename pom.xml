@@ -13,6 +13,7 @@
         <module>data-stream</module>
         <module>tdengine-connector</module>
         <module>flink-hive-code</module>
+        <module>akka-rpc-code</module>
     </modules>
 
     <properties>
