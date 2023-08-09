@@ -16,9 +16,12 @@ public class CustomSourceDemo {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         // windows 环境下 默认并行度等于 CPU 个数
-        env.setParallelism(1);
+//        env.setParallelism(1);
 
         env.addSource(new CustomSourceFunction())
+                .forceNonParallel()
+                .partitionCustom((key, numPartitions) -> key % numPartitions,
+                        split -> split.bucket)
                 .print();
 
         env.execute("Custom Source Job");
@@ -36,13 +39,15 @@ public class CustomSourceDemo {
 
             String[] users = {"Mary", "Alice", "Bob", "Cary"};
             String[] urls = {"./home", "./cart", "./fav", "./prod?id=1", "./prod?id=2"};
+            int[] buckets = {0, 1, 2, 3};
 
             while (running) {
 
                 ctx.collect(new Event(
                         users[random.nextInt(users.length)],
                         urls[random.nextInt(urls.length)],
-                        System.currentTimeMillis()
+                        System.currentTimeMillis(),
+                        buckets[random.nextInt(buckets.length)]
                 ));
 
                 Thread.sleep(1000);
@@ -58,15 +63,17 @@ public class CustomSourceDemo {
 
     static class Event {
 
-        public Event(String user, String url, Long timestamp) {
+        public Event(String user, String url, Long timestamp, int bucket) {
             this.user = user;
             this.url = url;
             this.timestamp = timestamp;
+            this.bucket = bucket;
         }
 
         public String user;
         public String url;
         public Long timestamp;
+        public int bucket;
 
         @Override
         public String toString() {
