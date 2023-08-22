@@ -25,7 +25,7 @@ public class WriteDataToMinioSQL {
         // state backend setting from: https://nightlies.apache.org/flink/flink-docs-release-1.16/zh/docs/ops/state/state_backends/
         env.setStateBackend(new HashMapStateBackend());
         env.getCheckpointConfig().setCheckpointStorage("s3a://flink/checkpoint");
-        env.getConfig().setAutoWatermarkInterval(200L);
+        //env.getConfig().setAutoWatermarkInterval(200L);
 
         StreamTableEnvironment tableEnv = StreamTableEnvironment.create(env);
 
@@ -39,9 +39,9 @@ public class WriteDataToMinioSQL {
         tableEnv.executeSql("CREATE TEMPORARY TABLE datagen (\n" +
                 " f_sequence INT,\n" +
                 " f_random INT,\n" +
-                " f_random_str STRING,\n" +
-                " ts AS localtimestamp,\n" +
-                " WATERMARK FOR ts AS ts\n" +
+                " f_random_str STRING \n" +
+//                " ts AS localtimestamp,\n" +
+//                " WATERMARK FOR ts AS ts\n" +
                 ") WITH (\n" +
                 " 'connector' = 'datagen',\n" +
                 "\n" +
